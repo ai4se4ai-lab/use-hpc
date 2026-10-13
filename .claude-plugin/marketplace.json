@@ -1,0 +1,18 @@
+{
+  "name": "ai4se4ai-hpc",
+  "owner": {
+    "name": "ai4se4ai-lab"
+  },
+  "metadata": {
+    "description": "Claude Code plugins of ai4se4ai-lab for running research experiments on HPC clusters."
+  },
+  "plugins": [
+    {
+      "name": "use-hpc",
+      "source": "./plugins/use-hpc",
+      "description": "Turn source code plus a paper describing its experiments into a GPU-only Slurm pipeline (hpc/) with job arrays, dependencies, smoke tests, a live audit table and collected CSVs, tables and figures.",
+      "version": "1.0.0",
+      "category": "productivity"
+    }
+  ]
+}

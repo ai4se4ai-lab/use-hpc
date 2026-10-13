@@ -1,0 +1,85 @@
+{
+  "_comment": "Experiment graph for hpc/. One entry per stage; see references/experiments-schema.md of the use-hpc skill. Placeholders {NAME} are filled from vars, the stage's matrix cell and built-ins (RESULTS, RUN_DIR, RUN_ID, REPO, STAGE, CELL, CELL_ID, SEED...).",
+  "project": "example-project",
+  "require_gpu": true,
+  "vars": {
+    "SEEDS": "1,2,3",
+    "N_ITEMS": "1000",
+    "WORKERS": "8"
+  },
+  "smoke": {
+    "vars": { "SEEDS": "1", "N_ITEMS": "4", "WORKERS": "2" },
+    "time": "00:45:00",
+    "matrix_limit": 2,
+    "array_throttle": 2
+  },
+  "stages": [
+    {
+      "name": "setup",
+      "description": "Gate for everything else: download and verify data and models, then a pre-flight run.",
+      "internet": true,
+      "resources": { "gpus": "h100:1", "cpus": 8, "mem": "32G", "time": "02:00:00" },
+      "steps": [
+        { "name": "check_gpu", "builtin": "check_gpu", "always": true },
+        { "name": "prepare_data", "cmd": "python -m mypkg.prepare --out {RESULTS}/data", "produces": ["data/*"], "critical": true },
+        { "name": "verify_data", "cmd": "python -m mypkg.verify --data {RESULTS}/data --out {RESULTS}/setup/verify.json", "produces": ["setup/verify.json"], "critical": true, "always": true },
+        { "name": "preflight", "cmd": "python -m mypkg.run --model {PREFLIGHT_MODEL} --dataset tiny --n 1 --out {RESULTS}/setup/preflight.jsonl", "produces": ["setup/preflight.jsonl"], "critical": true, "always": true }
+      ]
+    },
+    {
+      "name": "main",
+      "description": "RQ1/RQ2 main matrix: one array task per model x dataset cell.",
+      "depends": [ { "stage": "setup", "type": "afterok" } ],
+      "matrix": { "model": ["model-a", "model-b"], "dataset": ["ds1", "ds2"] },
+      "resources": { "gpus": "h100:1", "cpus": 12, "mem": "64G", "time": "24:00:00", "requeue": true },
+      "array_throttle": 8,
+      "steps": [
+        {
+          "name": "run",
+          "cmd": "python -m mypkg.run --model {model} --dataset {dataset} --seeds {SEEDS} --n {N_ITEMS} --workers {WORKERS} --out {RESULTS}/main/{model}__{dataset}.jsonl",
+          "needs": ["data/*"],
+          "produces": ["main/{model}__{dataset}.jsonl"],
+          "progress": { "file": "main/{model}__{dataset}.jsonl", "expected": "{N_ITEMS}*3" },
+          "retries": 2
+        }
+      ]
+    },
+    {
+      "name": "followup",
+      "description": "RQ3: consumes the main output of the SAME cell as soon as that cell finishes (aftercorr pipelining).",
+      "depends": [ { "stage": "main", "type": "aftercorr" } ],
+      "matrix_from": "main",
+      "resources": { "gpus": "h100:1", "cpus": 8, "mem": "32G", "time": "08:00:00", "requeue": true },
+      "steps": [
+        { "name": "analyze_cell", "cmd": "python -m mypkg.followup --in {RESULTS}/main/{model}__{dataset}.jsonl --out {RESULTS}/followup/{model}__{dataset}.csv",
+          "needs": ["main/{model}__{dataset}.jsonl"], "produces": ["followup/{model}__{dataset}.csv"] }
+      ]
+    },
+    {
+      "name": "collect",
+      "description": "All tables, figures, CSVs and logs; copied from scratch to project.",
+      "depends": [ { "stage": "main", "type": "afterany" }, { "stage": "followup", "type": "afterany" } ],
+      "_resources_note": "Light stage: smallest GPU slice (MIG) so it still runs on a GPU node without holding a full GPU.",
+      "resources": { "gpus": "h100_1g.10gb:1", "cpus": 2, "mem": "16G", "time": "02:00:00" },
+      "steps": [
+        { "name": "analysis", "cmd": "python -m mypkg.analysis --results {RESULTS} --out {RESULTS}/analysis", "always": true },
+        { "name": "collect", "builtin": "collect", "always": true }
+      ]
+    }
+  ],
+  "results": {
+    "tables": [
+      { "name": "main_runs", "glob": "main/*.jsonl", "description": "every run of the main matrix" },
+      { "name": "followup", "glob": "followup/*.csv" }
+    ],
+    "summaries": [
+      { "name": "success_by_model_dataset", "table": "main_runs", "group_by": ["model", "dataset"],
+        "metrics": { "success": "mean", "seconds": "median", "task": "count" } }
+    ],
+    "plots": [
+      { "name": "success_by_model", "summary": "success_by_model_dataset", "kind": "bar", "x": "model", "y": "success_mean", "hue": "dataset", "title": "Success by model" }
+    ],
+    "copy": ["analysis/**", "setup/*.json"],
+    "archive": ["runs"]
+  }
+}
