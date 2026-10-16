@@ -157,12 +157,19 @@ def cell_label(cell: dict) -> str:
 
 # ── placeholders ─────────────────────────────────────────────────────────────
 def fill(text: str, ctx: dict) -> str:
+    """Replace {NAME} placeholders; values may themselves contain placeholders (resolved up to 5 levels deep)."""
     def rep(m):
         k = m.group(1)
         if k not in ctx:
             raise KeyError(f"unknown placeholder {{{k}}} in: {text[:120]}  (known: {', '.join(sorted(ctx)[:40])} ...)")
         return str(ctx[k])
-    return _PH.sub(rep, text)
+    out = str(text)
+    for _ in range(5):
+        new = _PH.sub(rep, out)
+        if new == out:
+            break
+        out = new
+    return out
 
 
 def fill_number(expr: str, ctx: dict) -> float | None:

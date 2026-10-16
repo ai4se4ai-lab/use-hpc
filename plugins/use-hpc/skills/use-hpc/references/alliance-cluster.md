@@ -11,7 +11,7 @@ The template defaults follow Alliance practice. Before improvising, read the sit
 ## Software
 
 - Modules: `module load StdEnv/2023 python/3.11` (plus `cuda/...`, `arrow/...`, `scipy-stack/...` as needed). Use `module spider <name>` to find versions. Record them in `MODULES`.
-- Python: a virtualenv in `$SLURM_TMPDIR` per job, with `virtualenv --no-download` and `pip install --no-index -r requirements.txt` from the Alliance **wheelhouse**. Do not use conda, `uv`, or PyPI by default. For a package missing from the wheelhouse, download its wheel once in the setup stage into `PIP_FIND_LINKS` (`pip download --no-deps --only-binary=:all:`), and suggest a support ticket so it gets added.
+- Python: a virtualenv in `$SLURM_TMPDIR` per job, with `virtualenv --no-download` and `pip install --no-index -r requirements.txt` from the Alliance **wheelhouse**. Do not use conda, `uv`, or PyPI by default. For a package missing from the wheelhouse, download its wheel once in the setup stage into `EXTRA_WHEELS` (`pip download --no-deps --only-binary=:all:`), and suggest a support ticket so it gets added.
 - Containers: Apptainer, when a project needs a fixed system stack.
 
 ## Storage

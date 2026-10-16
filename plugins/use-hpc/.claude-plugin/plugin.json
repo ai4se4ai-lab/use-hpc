@@ -1,6 +1,6 @@
 {
   "name": "use-hpc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "From source code and a paper to audited GPU experiments on Slurm: scaffolds hpc/ with an experiment graph (job arrays, afterok/afterany/aftercorr dependencies, needs/produces data contracts), a GPU-only guard, self-requeue, smoke runs, a live tabular audit, results collection (CSV, Markdown/LaTeX tables, figures, logs) and a guide mapping every experiment of the paper to the job that runs it.",
   "author": {
     "name": "ai4se4ai-lab"

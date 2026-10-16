@@ -103,9 +103,9 @@ setup_python() {
         # shellcheck disable=SC1091
         source "$venv/bin/activate"
         pip install --no-index -q --upgrade pip
-        local fl=(); [ -n "${PIP_FIND_LINKS:-}" ] && fl=(--find-links "$PIP_FIND_LINKS")
+        local fl=(); [ -n "${EXTRA_WHEELS:-}" ] && fl=(--find-links "$EXTRA_WHEELS")
         if [ -f "$req" ] && ! pip install --no-index -q "${fl[@]}" -r "$req"; then
-            log_error "pip install failed: a package is missing from the wheelhouse (put its wheel in PIP_FIND_LINKS)"; return 1
+            log_error "pip install failed: a package is missing from the wheelhouse (put its wheel in EXTRA_WHEELS)"; return 1
         fi
     else
         # shellcheck disable=SC1091

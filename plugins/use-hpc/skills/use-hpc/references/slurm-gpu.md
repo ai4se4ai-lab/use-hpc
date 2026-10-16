@@ -121,7 +121,7 @@ For collective communication, also run a tiny `torch.distributed` all-reduce bef
 | `PENDING`, WAIT `Priority` / `Resources` | `sshare -U`, `squeue --start -j <id>` | Normal under load. Smaller requests, MIG slices or shorter times start sooner. |
 | `PENDING`, WAIT `DependencyNeverSatisfied` | upstream state | A gate failed. Fix it and resubmit the stage with `--only`. |
 | `FAILED` rc 5 | Slurm `.err` | No GPU visible: missing `gpus` request or wrong type name. |
-| `FAILED` rc 4 | Slurm `.out` | `pip install` failed: a package is missing from the wheelhouse (`PIP_FIND_LINKS`, or ask support). |
+| `FAILED` rc 4 | Slurm `.out` | `pip install` failed: a package is missing from the wheelhouse (`EXTRA_WHEELS`, or ask support). |
 | step rc 6 "missing input" | `needs` vs upstream `produces` | The upstream stage failed or wrote elsewhere. |
 | step rc 7 "declared output missing" | step log | The command exited 0 but did not write its output. |
 | `OUT_OF_MEMORY` | `sacct -j <id> --format=MaxRSS,ReqMem`, `seff <id>` | Increase `mem`, or reduce workers. |

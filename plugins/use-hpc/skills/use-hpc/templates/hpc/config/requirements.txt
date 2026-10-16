@@ -1,6 +1,6 @@
 # Python packages for the jobs. Installed per job into $SLURM_TMPDIR/venv with
-#   pip install --no-index [--find-links $PIP_FIND_LINKS] -r hpc/config/requirements.txt
-# (Alliance wheelhouse first; packages missing from it go into $PIP_FIND_LINKS during the setup stage,
+#   pip install --no-index [--find-links $EXTRA_WHEELS] -r hpc/config/requirements.txt
+# (Alliance wheelhouse first; packages missing from it go into $EXTRA_WHEELS during the setup stage,
 #  or ask support to add them.) collect_results.py needs only the stdlib; matplotlib enables figures.
 numpy
 pandas

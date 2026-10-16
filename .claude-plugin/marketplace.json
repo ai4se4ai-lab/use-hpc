@@ -11,7 +11,7 @@
       "name": "use-hpc",
       "source": "./plugins/use-hpc",
       "description": "Turn source code plus a paper describing its experiments into a GPU-only Slurm pipeline (hpc/) with job arrays, dependencies, smoke tests, a live audit table and collected CSVs, tables and figures.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "productivity"
     }
   ]
