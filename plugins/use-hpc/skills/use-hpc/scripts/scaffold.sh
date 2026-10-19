@@ -1,6 +1,6 @@
 #!/bin/bash
 # scaffold.sh — copy the use-hpc template into a project as <project>/hpc (never overwrites existing files).
-#   bash ~/.claude/skills/use-hpc/scripts/scaffold.sh /path/to/project [--force]
+#   bash <loaded-skill-directory>/scripts/scaffold.sh /path/to/project [--force]
 set -euo pipefail
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROJECT="${1:?usage: scaffold.sh <project dir> [--force]}"
