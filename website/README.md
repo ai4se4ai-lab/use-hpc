@@ -18,11 +18,11 @@ The build writes `dist/` and uses relative asset URLs, so it works under a GitHu
 
 The agent selector supports arrow keys, Home, and End. Global/project scope updates the command and destination. Clipboard failures select the original text for manual copying. Themes persist locally when storage is available. The pipeline graph and audit output are illustrative; this website never connects to Slurm or submits jobs.
 
-Install commands use the [skills CLI's documented agent identifiers and options](https://github.com/vercel-labs/skills#supported-agents). They reference this repository's existing name, `ai4se4ai-lab/use-hpc-claude-skill`; the name does not imply a Claude runtime dependency. The local skill folder is `plugins/use-hpc/skills/use-hpc`. Current agent skill support and terminal/file permissions are prerequisites. See also [Codex skills](https://developers.openai.com/codex/skills).
+Install commands use the [skills CLI's documented agent identifiers and options](https://github.com/vercel-labs/skills#supported-agents). They install the shared skill from `ai4se4ai-lab/use-hpc`. The local skill folder is `plugins/use-hpc/skills/use-hpc`. Current agent skill support and terminal/file permissions are prerequisites. See also [Codex skills](https://developers.openai.com/codex/skills).
 
 ## Deploy
 
-The production URL for this repository is `https://ai4se4ai-lab.github.io/use-hpc-claude-skill/` (unless a custom domain is configured). The root README links to it. The link becomes live after a successful deployment.
+The production URL for this repository is `https://ai4se4ai-lab.github.io/use-hpc/` (unless a custom domain is configured). The root README links to it. The link becomes live after a successful deployment.
 
 One-time setup:
 
@@ -36,7 +36,7 @@ The release workflow runs for `published`, `edited`, `deleted`, and `unpublished
 
 `CHANGELOG.md` is generated only between `releases:start` and `releases:end` markers; keep hand-written development notes outside that section. `website/releases.json` is fully generated. Do not edit generated release entries: edit the GitHub Release instead. Both files are committed to the default branch before building. The site always deploys current default-branch website code at that recorded commit, including when notes for an old release are edited; it does not revert the site to the old tag. This is a release-driven website deployment, not a tool-package release creator.
 
-CI checks every pull request and push to `main` without deploying. Production releases and manual deployments are serialized, and tests/build checks must pass before publishing. The production build includes `changelog.html`, `releases.json` and a downloadable `CHANGELOG.md`; the development server renders the same changelog page. The live changelog does not need GitHub API access or tokens in the visitor's browser.
+CI checks every pull request and push to `main` or `dev` without deploying. Production releases and manual deployments are serialized, and tests/build checks must pass before publishing. The production build includes `changelog.html`, `releases.json` and a downloadable `CHANGELOG.md`; the development server renders the same changelog page. The live changelog does not need GitHub API access or tokens in the visitor's browser.
 
 If releases are published by another workflow using `GITHUB_TOKEN`, GitHub suppresses the resulting release-event workflow. Use a GitHub App token/PAT for that publishing step or explicitly dispatch this workflow using the API after creating the release. See [GitHub's workflow triggering rules](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow#triggering-a-workflow-from-a-workflow).
 

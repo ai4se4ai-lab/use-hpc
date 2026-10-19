@@ -8,7 +8,7 @@ export const agents = Object.freeze({
 export function installCommand(agent, scope = 'global') {
   if (!Object.hasOwn(agents, agent)) throw new Error('Unknown agent');
   if (!['global', 'project'].includes(scope)) throw new Error('Unknown scope');
-  return `npx -y skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc --agent ${agent}${scope === 'global' ? ' --global' : ''} --copy --yes`;
+  return `npx -y skills add ai4se4ai-lab/use-hpc --skill use-hpc --agent ${agent}${scope === 'global' ? ' --global' : ''} --copy --yes`;
 }
 const stages = {
   setup: ['Start with a sound foundation.', 'Prepare data and models inside an allocated GPU job. Verification and a preflight run gate the experiment matrix.', 'setup → afterok → main'],

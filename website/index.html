@@ -14,7 +14,7 @@
   <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
     <a class="brand" href="#" aria-label="use-hpc home"><img src="./favicon.svg" alt="" width="30" height="30">use-hpc <span class="brand-tag">AGENT SKILL</span></a>
-    <nav aria-label="Main navigation"><a href="#workflow">Workflow</a><a href="#capabilities">Capabilities</a><a href="#quickstart">Quick start</a><a href="./changelog.html">Changelog</a><a href="https://github.com/ai4se4ai-lab/use-hpc-claude-skill">GitHub ↗</a></nav>
+    <nav aria-label="Main navigation"><a href="#workflow">Workflow</a><a href="#capabilities">Capabilities</a><a href="#quickstart">Quick start</a><a href="./changelog.html">Changelog</a><a href="https://github.com/ai4se4ai-lab/use-hpc">GitHub ↗</a></nav>
     <div class="nav-actions"><button id="theme-toggle" class="icon-button" type="button" aria-label="Switch to dark theme">◐</button><a class="button small primary" href="#quickstart">Install skill <span>↗</span></a></div>
   </header>
   <main id="main">
@@ -24,7 +24,7 @@
         <a class="eyebrow" href="#quickstart"><span class="pill">use-hpc</span> One skill. Your choice of agent. <span>→</span></a>
         <h1>Your paper.<br>Your code. <em>Your GPU cluster.</em></h1>
         <p class="hero-description">Turn a research paper and its source code into a connected Slurm experiment pipeline. Smoke-test every stage, follow each run, and bring the results home.</p>
-        <div class="hero-command"><span class="prompt">$</span><code>npx skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc</code><button type="button" class="copy" data-copy="hero" aria-label="Copy installation command">Copy <span>⧉</span></button></div>
+        <div class="hero-command"><span class="prompt">$</span><code>npx skills add ai4se4ai-lab/use-hpc --skill use-hpc</code><button type="button" class="copy" data-copy="hero" aria-label="Copy installation command">Copy <span>⧉</span></button></div>
         <div class="hero-actions"><a class="button primary" href="#quickstart">Get started <span>→</span></a><a class="button secondary" href="#workflow">Explore the pipeline <span>↓</span></a></div>
         <p class="agent-line">WORKS WITH <span>Codex</span><i>·</i><span>Claude Code</span><i>·</i><span>OpenCode</span><i>·</i><span>Cursor</span><i>·</i><span>Copilot</span></p>
       </div>
@@ -54,7 +54,7 @@
               <div class="graph-node" data-node="collect"><span class="node-icon">↳</span><div><small>04 / COLLECT</small><strong>Results you can trace</strong><span>CSV · tables · figures · manifest</span></div></div>
             </div>
           </div>
-          <aside class="inspector"><div><span class="kicker">INSPECT THE STAGE</span><h2 id="stage-title">Start with a sound foundation.</h2><p id="stage-description">Prepare data and models inside an allocated GPU job. Verification and a preflight run gate the experiment matrix.</p></div><div class="contract"><span class="tiny-label">THE CONTRACT</span><code id="stage-contract">setup → afterok → main</code></div><a href="https://github.com/ai4se4ai-lab/use-hpc-claude-skill/blob/main/plugins/use-hpc/skills/use-hpc/templates/hpc/config/experiments.json">Read the actual template ↗</a></aside>
+          <aside class="inspector"><div><span class="kicker">INSPECT THE STAGE</span><h2 id="stage-title">Start with a sound foundation.</h2><p id="stage-description">Prepare data and models inside an allocated GPU job. Verification and a preflight run gate the experiment matrix.</p></div><div class="contract"><span class="tiny-label">THE CONTRACT</span><code id="stage-contract">setup → afterok → main</code></div><a href="https://github.com/ai4se4ai-lab/use-hpc/blob/main/plugins/use-hpc/skills/use-hpc/templates/hpc/config/experiments.json">Read the actual template ↗</a></aside>
         </div>
         <div class="workbench-footer"><span><i class="live-dot"></i> Interactive preview</span><span>Arrays · dependencies · file contracts</span></div>
       </div>
@@ -73,7 +73,7 @@
     </section>
 
     <section class="section audit-section"><div class="container split">
-      <div><span class="kicker">02 / VISIBILITY, FROM QUEUE TO RESULTS</span><h2>Know what ran.<br><em>Know what failed.</em></h2><p>A tabular audit brings together stage and cell state, queue reasons, elapsed time, steps, record progress, and failure excerpts.</p><p>Collect CSVs, Markdown and LaTeX tables, figures, GPU usage, and the run manifest. Copy the results from scratch to persistent storage.</p><a class="text-link" href="https://github.com/ai4se4ai-lab/use-hpc-claude-skill/blob/main/plugins/use-hpc/skills/use-hpc/references/audit-and-results.md">Explore audit & results ↗</a></div>
+      <div><span class="kicker">02 / VISIBILITY, FROM QUEUE TO RESULTS</span><h2>Know what ran.<br><em>Know what failed.</em></h2><p>A tabular audit brings together stage and cell state, queue reasons, elapsed time, steps, record progress, and failure excerpts.</p><p>Collect CSVs, Markdown and LaTeX tables, figures, GPU usage, and the run manifest. Copy the results from scratch to persistent storage.</p><a class="text-link" href="https://github.com/ai4se4ai-lab/use-hpc/blob/main/plugins/use-hpc/skills/use-hpc/references/audit-and-results.md">Explore audit & results ↗</a></div>
       <div class="terminal"><div class="terminal-head"><span>hpc/status.sh --watch 120</span><span>ILLUSTRATIVE OUTPUT</span></div><pre><span class="terminal-muted">STAGE     CELL          STATE      PROGRESS</span>
 setup     default       <span class="green">COMPLETED</span>  4/4 steps
 main      model-a__ds1  <span class="green">COMPLETED</span>  1000/1000
@@ -101,7 +101,7 @@ collect   default       <span class="terminal-muted">PENDING</span>    Dependenc
         </div>
         <div id="install-code" role="tabpanel" aria-labelledby="tab-codex" tabindex="0">
           <div class="scope-row"><label for="install-scope">Install scope</label><select id="install-scope"><option value="global">Global · all your projects</option><option value="project">Project · current directory</option></select></div>
-          <p class="code-comment" id="install-comment"># Install use-hpc for Codex</p><div class="install-command"><span class="prompt">$</span><code id="agent-command">npx -y skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc --agent codex --global --copy --yes</code></div>
+          <p class="code-comment" id="install-comment"># Install use-hpc for Codex</p><div class="install-command"><span class="prompt">$</span><code id="agent-command">npx -y skills add ai4se4ai-lab/use-hpc --skill use-hpc --agent codex --global --copy --yes</code></div>
           <div class="copy-row"><span id="install-path">Installs to ~/.agents/skills/use-hpc</span><button class="copy" type="button" data-copy="agent" aria-label="Copy selected agent installation command">Copy command ⧉</button></div>
           <div class="ask"><span class="code-comment"># Start a new agent session, then ask</span><blockquote>Use use-hpc with this repository and docs/paper.tex. Map every experiment to a Slurm GPU job, scaffold hpc/, and show me the dry run before submitting anything.</blockquote><button class="copy" data-copy="ask" type="button">Copy prompt ⧉</button></div>
         </div>
@@ -116,9 +116,9 @@ collect   default       <span class="terminal-muted">PENDING</span>    Dependenc
       <details><summary>Will it work on my Slurm cluster?</summary><p>The defaults follow Digital Research Alliance of Canada practices. Adapt cluster.env, module names, storage paths, GPU requests, and package installation to your site. Read the cluster documentation with your agent before submitting.</p></details>
       <details><summary>Can I still use the Claude Code plugin?</summary><p>Yes. The existing marketplace installation is preserved. Choose either the plugin or the skill installer for Claude Code to avoid duplicate listings. Other agents use the portable skill directly.</p></details>
     </section>
-    <section class="closing container"><span class="kicker">LESS QUEUE GUESSWORK. MORE RESEARCH.</span><h2>Bring the paper.<br><em>Build the experiment.</em></h2><a class="button primary" href="#quickstart">Install use-hpc <span>→</span></a><a class="text-link" href="https://github.com/ai4se4ai-lab/use-hpc-claude-skill">Explore the source ↗</a></section>
+    <section class="closing container"><span class="kicker">LESS QUEUE GUESSWORK. MORE RESEARCH.</span><h2>Bring the paper.<br><em>Build the experiment.</em></h2><a class="button primary" href="#quickstart">Install use-hpc <span>→</span></a><a class="text-link" href="https://github.com/ai4se4ai-lab/use-hpc">Explore the source ↗</a></section>
   </main>
-  <footer class="container"><a class="brand" href="#">use-hpc</a><p>By ai4se4ai-lab · Built for research on Slurm.</p><a href="./THIRD_PARTY_NOTICES.txt">Design adapted from Archify ↗</a><a href="https://github.com/ai4se4ai-lab/use-hpc-claude-skill">GitHub ↗</a></footer>
+  <footer class="container"><a class="brand" href="#">use-hpc</a><p>By ai4se4ai-lab · Built for research on Slurm.</p><a href="./THIRD_PARTY_NOTICES.txt">Design adapted from Archify ↗</a><a href="https://github.com/ai4se4ai-lab/use-hpc">GitHub ↗</a></footer>
   <div id="copy-status" role="status" aria-live="polite"></div>
 </body>
 </html>
