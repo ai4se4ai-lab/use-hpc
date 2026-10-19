@@ -1,0 +1,100 @@
+name: Release website and changelog
+on:
+  release:
+    types: [published, edited, deleted, unpublished]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: release-website
+  cancel-in-progress: false
+jobs:
+  synchronize:
+    if: github.event_name != 'release' || !github.event.release.draft || github.event.action == 'unpublished' || github.event.action == 'deleted'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      # Use current automation/site source, even for an edit to an older release.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test automation before writing
+        run: npm test
+        working-directory: website
+      - name: Synchronize all published release notes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { pathToFileURL } = await import('node:url');
+            const { synchronizeReleases } = await import(pathToFileURL(`${process.env.GITHUB_WORKSPACE}/.github/scripts/releases.mjs`).href);
+            await synchronizeReleases({ github, repository: context.repo, root: process.env.GITHUB_WORKSPACE });
+      - name: Commit generated changelog and release data
+        id: commit
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- CHANGELOG.md website/releases.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs: synchronize release changelog [skip ci]'
+            git push origin "HEAD:refs/heads/$DEFAULT_BRANCH"
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  build:
+    needs: synchronize
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.synchronize.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+        working-directory: website
+      - run: npm run build
+        working-directory: website
+      - name: Validate production pages
+        run: node website/scripts/check-build.mjs
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Link deployed website in repository About
+        uses: actions/github-script@v7
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        with:
+          # GITHUB_TOKEN cannot normally edit repository administration settings.
+          github-token: ${{ secrets.SITE_ADMIN_TOKEN || github.token }}
+          script: |
+            const homepage = process.env.SITE_URL;
+            await core.summary.addLink('Deployed website', homepage).write();
+            try {
+              await github.rest.repos.update({ ...context.repo, homepage });
+              core.info(`Repository website set to ${homepage}`);
+            } catch (error) {
+              if (![403, 404].includes(error.status)) throw error;
+              core.warning('Website deployed, but About could not be updated. Set the repository About → Website field manually, or add SITE_ADMIN_TOKEN with Administration: write for this repository.');
+              await core.summary.addRaw('Repository About still needs its Website field set. Add SITE_ADMIN_TOKEN (Administration: write) to automate this.').write();
+            }

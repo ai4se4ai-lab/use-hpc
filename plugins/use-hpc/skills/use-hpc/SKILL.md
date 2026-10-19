@@ -38,7 +38,7 @@ Note disagreements between the document and the code, and ask which wins. Summar
 ```bash
 bash <skill base directory>/scripts/scaffold.sh <project_dir>      # never overwrites existing files
 ```
-The skill's base directory is shown when the skill loads. It is `~/.claude/skills/use-hpc` for a personal install, or under `~/.claude/plugins/` when installed as the `use-hpc` plugin. If unsure, find it with `find ~/.claude -path '*use-hpc*/scripts/scaffold.sh'`. The project now has `hpc/{config,slurm,scripts,docs,logs}`.
+Use the base directory of the loaded `SKILL.md` as `<skill base directory>`; resolve `scripts/`, `references/`, and `templates/` relative to it. Do not assume a Claude installation or a particular agent's home directory. The same skill works with Codex, Claude Code, OpenCode, Cursor, and GitHub Copilot when the agent can read files and execute shell commands. The generated pipeline uses Bash, Python and Slurm, with no agent SDK or model-provider API dependency. On Windows, run the pipeline in a Linux environment or on the remote cluster. The project now has `hpc/{config,slurm,scripts,docs,logs}`.
 
 ### Phase 3: configure
 - `hpc/config/cluster.env`: `ACCOUNT` (ask the user; `sshare -U` lists accounts), `MODULES`, `SRC_DIRS`, `CODE_HASH_DIRS`, `WORK`, GPU monitor interval.
