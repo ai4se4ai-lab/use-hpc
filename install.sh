@@ -23,7 +23,7 @@ case "$agent" in
     *) echo "Unsupported agent: $agent (try --help)" >&2; exit 2 ;;
 esac
 command -v npx >/dev/null 2>&1 || { echo "Install Node.js (with npx) first." >&2; exit 1; }
-source="${USE_HPC_REPO:-https://github.com/ai4se4ai-lab/use-hpc-claude-skill}"
+source="${USE_HPC_REPO:-https://github.com/ai4se4ai-lab/use-hpc}"
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd || true)"
 if [ -n "$here" ] && [ -f "$here/plugins/use-hpc/skills/use-hpc/SKILL.md" ]; then
     source="$here/plugins/use-hpc/skills/use-hpc"

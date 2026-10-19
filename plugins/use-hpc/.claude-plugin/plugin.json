@@ -5,8 +5,8 @@
   "author": {
     "name": "ai4se4ai-lab"
   },
-  "homepage": "https://github.com/ai4se4ai-lab/use-hpc-claude-skill",
-  "repository": "https://github.com/ai4se4ai-lab/use-hpc-claude-skill",
+  "homepage": "https://github.com/ai4se4ai-lab/use-hpc",
+  "repository": "https://github.com/ai4se4ai-lab/use-hpc",
   "keywords": [
     "hpc",
     "slurm",

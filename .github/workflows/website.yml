@@ -3,6 +3,8 @@ on:
   release:
     types: [published, edited, deleted, unpublished]
   workflow_dispatch:
+env:
+  SITE_URL: https://ai4se4ai-lab.github.io/use-hpc/
 permissions:
   contents: read
 concurrency:
@@ -74,7 +76,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ env.SITE_URL }}
     steps:
       - uses: actions/configure-pages@v5
       - name: Deploy
@@ -82,8 +84,6 @@ jobs:
         uses: actions/deploy-pages@v4
       - name: Link deployed website in repository About
         uses: actions/github-script@v7
-        env:
-          SITE_URL: ${{ steps.deployment.outputs.page_url }}
         with:
           # GITHUB_TOKEN cannot normally edit repository administration settings.
           github-token: ${{ secrets.SITE_ADMIN_TOKEN || github.token }}

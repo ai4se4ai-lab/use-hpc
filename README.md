@@ -1,6 +1,6 @@
 # use-hpc: a portable agent skill for experiments on Slurm GPU clusters
 
-[Website](https://ai4se4ai-lab.github.io/use-hpc-claude-skill/) · [Changelog](CHANGELOG.md) · [Releases](https://github.com/ai4se4ai-lab/use-hpc-claude-skill/releases)
+[Website](https://ai4se4ai-lab.github.io/use-hpc/) · [Changelog](CHANGELOG.md) · [Releases](https://github.com/ai4se4ai-lab/use-hpc/releases)
 
 Give your coding agent a project's **source code** and a **document that describes the approach and its experiments** (a LaTeX paper, a PDF, a design doc). The same `use-hpc` skill works with **Codex, Claude Code, OpenCode, Cursor, and GitHub Copilot**. It builds an `hpc/` directory in the project that:
 
@@ -21,19 +21,19 @@ Use the [skills CLI](https://github.com/vercel-labs/skills) with Node.js and Git
 
 ```bash
 # Codex
-npx -y skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc --agent codex --global --copy --yes
+npx -y skills add ai4se4ai-lab/use-hpc --skill use-hpc --agent codex --global --copy --yes
 
 # Claude Code
-npx -y skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc --agent claude-code --global --copy --yes
+npx -y skills add ai4se4ai-lab/use-hpc --skill use-hpc --agent claude-code --global --copy --yes
 
 # OpenCode
-npx -y skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc --agent opencode --global --copy --yes
+npx -y skills add ai4se4ai-lab/use-hpc --skill use-hpc --agent opencode --global --copy --yes
 
 # Cursor
-npx -y skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc --agent cursor --global --copy --yes
+npx -y skills add ai4se4ai-lab/use-hpc --skill use-hpc --agent cursor --global --copy --yes
 
 # GitHub Copilot
-npx -y skills add ai4se4ai-lab/use-hpc-claude-skill --skill use-hpc --agent github-copilot --global --copy --yes
+npx -y skills add ai4se4ai-lab/use-hpc --skill use-hpc --agent github-copilot --global --copy --yes
 ```
 
 Omit `--global` to install in the current project. For interactive selection, omit `--agent ...` and `--yes`. Start a new agent session after installation. Use a current agent version with Agent Skills support, file access, and a terminal-enabled mode.
@@ -53,13 +53,13 @@ To update a CLI install, rerun its command or use `npx skills update use-hpc`. T
 In Claude Code (terminal):
 
 ```bash
-claude plugin marketplace add ai4se4ai-lab/use-hpc-claude-skill && claude plugin install use-hpc@ai4se4ai-hpc
+claude plugin marketplace add ai4se4ai-lab/use-hpc && claude plugin install use-hpc@ai4se4ai-hpc
 ```
 
 Or inside a Claude Code session:
 
 ```
-/plugin marketplace add ai4se4ai-lab/use-hpc-claude-skill
+/plugin marketplace add ai4se4ai-lab/use-hpc
 /plugin install use-hpc@ai4se4ai-hpc
 ```
 
